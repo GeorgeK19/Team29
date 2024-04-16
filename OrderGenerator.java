@@ -1,6 +1,7 @@
 package hw4;
 
 import java.io.*;
+import java.util.*;
 
 public class OrderGenerator {
 	
@@ -25,13 +26,29 @@ public class OrderGenerator {
 				target.write(c);
 			}
 			
-			for(int i=0;i<numberOfOrders;i++) {
+			Order[] orders=new Order[numberOfOrders];
+
+            //Generate and add orders to the array
+            for (int i=0;i<numberOfOrders; i++) {
+                Order order=new Order(i);
+                order.generate();
+                orders[i]=order;
+            }
+
+            //Bubble sort
+            for(int i=0;i<orders.length-1;i++){
+                for(int j=0;j<orders.length-i-1;j++){
+                    if(orders[j].getTReq()>orders[j+1].getTReq()){
+                        Order temp=orders[j];
+                        orders[j]=orders[j+1];
+                        orders[j+1]=temp;
+                    }
+                }
+            }
 			
-				Order order=new Order(i);
+			for(int i=0;i<numberOfOrders;i++) {
 				
-				order.generate();
-				
-				String s="\n"+"<"+order.getNum()+" , "+order.getTOrder()+" , "+order.getTReq()+" , "+order.getNpp()+" , "+order.getNpc()+" , "+order.getNps()+" , "+order.getNpm()+" , "+order.getNpf()+">";
+				String s="\n"+"<"+orders[i].getNum()+" , "+orders[i].getTOrder()+" , "+orders[i].getTReq()+" , "+orders[i].getNpp()+" , "+orders[i].getNpc()+" , "+orders[i].getNps()+" , "+orders[i].getNpm()+" , "+orders[i].getNpf()+">";
 				
 				for(int k=0;k<s.length();k++) {
 					c=s.charAt(k);
